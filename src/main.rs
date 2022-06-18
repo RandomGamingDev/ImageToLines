@@ -22,7 +22,7 @@ macro_rules! GetPixAvg {
     };
 }
 
-macro_rules! GetSamples { // Goes higher than 9 & even 10 samples for some reason
+macro_rules! GetSamples {
     ($img:expr, $x:expr, $y:expr, $dimensions:expr, $return:expr, $return_len:expr) => {
             let true_x: i32 = $x as i32 - 1; let true_y: i32 = $y as i32 - 1;
             for i in 0..NUM_CHANNELS { for j in 0..NUM_CHANNELS {
