@@ -5,20 +5,16 @@ const NUM_CHANNELS: usize = 3;
 
 macro_rules! SubtractPixels {
     ($pixel1:expr, $pixel2:expr, $return:expr, $return_len:expr) => {
-        let mut to_ret: [u32; NUM_CHANNELS] = [0; NUM_CHANNELS];
         for i in 0..NUM_CHANNELS
-            {to_ret[i] = i32::abs($pixel1[i] as i32 - $pixel2[i] as i32) as u32;}
-        $return[$return_len] = to_ret;
+            {$return[i]+=i32::abs($pixel1[i] as i32 - $pixel2[i] as i32) as u32;}
         $return_len+=1;
     };
 }
 
 macro_rules! GetPixAvg {
     ($pixels:expr, $pixels_len:expr, $return:expr) => {
-        for i in 0..NUM_CHANNELS { for j in 0..$pixels_len 
-            {$return[i]+=$pixels[j][i];}
-            $return[i]/=$pixels_len as u32;
-        }
+        for i in 0..NUM_CHANNELS 
+            {$return[i]/=$pixels_len as u32;}
     };
 }
 
@@ -42,12 +38,11 @@ macro_rules! GetSamples {
 macro_rules! CalcAvgDiff {
     ($samples:expr, $samples_len:expr, $return:expr) => {
         let mut differences_len: usize = 0;
-        let mut differences: [[u32; NUM_CHANNELS]; 81] = [[0; NUM_CHANNELS]; 81];
         
         for i in 0..$samples_len { for j in 0..$samples_len 
-            {SubtractPixels!($samples[i], $samples[j], differences, differences_len);}}
+            {SubtractPixels!($samples[i], $samples[j], $return, differences_len);}}
         
-        GetPixAvg!(differences, differences_len, $return);
+        GetPixAvg!($return, differences_len, $return);
     };
 }
 
