@@ -11,3 +11,5 @@ You can then plop in your image.<br/>
 Write the filepath to your image in img_name.txt.<br/>
 Then write the contrast setting (what minimum contrast is required to draw a pixel) in pixel_drawing_settings.txt (there are currently no other settings that can be modified in pixel_drawing_settings.txt, but modifying the executable is easy enough).<br/>
 After that you can run the program and you should have your image in output.jpeg!<br/>
+
+Btw, this uses the CPU rather than the GPU. The speed is still good enough, where even a high quality images, on average takes under half a minute.
