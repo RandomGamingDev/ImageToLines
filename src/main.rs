@@ -25,7 +25,7 @@ macro_rules! GetSamples {
                 let sample_x: i32 = true_x + i as i32; let sample_y: i32 = true_y + j as i32;
                 if ((sample_x > 0) && (sample_x < $dimensions.0 as i32)) && ((sample_y > 0) && (sample_y < $dimensions.1 as i32)) {
                     let mut pixel_dat: [u32; NUM_CHANNELS] = [0; NUM_CHANNELS];
-                    if (sample_x >= 0) && (sample_y >= 0) { for k in 0..NUM_CHANNELS
+                    if (sample_x >= 0) && (sample_y >= 0) { for k in 0..NUM_CHANNELS // This right here is the problem
                         {pixel_dat[k] = $img.get_pixel(sample_x as u32, sample_y as u32).0[k] as u32;}
                     $return[$return_len] = pixel_dat;
                     $return_len+=1;
@@ -71,14 +71,18 @@ const OUTPUT_NAME: &str = "output.jpeg";
 fn main() {
     println!("Getting the pixel drawing settings...");
     let pixel_drawing_settings_txt: String = fs::read_to_string(PIXEL_DRAWING_SETTINGS_NAME)
-        .expect(format!("ERROR: Something went wrong when trying to read the pixel drawing settings from {}!", PIXEL_DRAWING_SETTINGS_NAME).as_str());
+        .expect(format!("ERROR: Something went wrong when trying to read the pixel drawing settings from {}!", PIXEL_DRAWING_SETTINGS_NAME).as_str())
+            .trim().to_string();
+    println!("Getting avg_diff_to_draw_pix...");
     let avg_diff_to_draw_pix: u32 = pixel_drawing_settings_txt.parse::<u32>()
         .expect("ERROR: Something went wrong when trying to parse setting avg_diff_to_draw_pix into an u32");
+    println!("Got avg_diff_to_draw_pix as {}!", avg_diff_to_draw_pix);
     println!("Got the pixel drawing settings!");
 
     println!("Getting image's name...");
     let img_name: String = fs::read_to_string(IMG_NAME_TXT)
-        .expect(format!("ERROR: Something went wrong when trying to read the image's name from {}!", IMG_NAME_TXT).as_str());
+        .expect(format!("ERROR: Something went wrong when trying to read the image's name from {}!", IMG_NAME_TXT).as_str())
+            .trim().to_string();
     println!("Got the image's name! The image's name is {}", &img_name);
 
     println!("Getting {}...", &img_name);
