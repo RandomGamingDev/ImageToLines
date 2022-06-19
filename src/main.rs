@@ -25,7 +25,7 @@ macro_rules! GetSamples {
                 let sample_x: i32 = true_x + i as i32; let sample_y: i32 = true_y + j as i32;
                 if ((sample_x > 0) && (sample_x < $dimensions.0 as i32)) && ((sample_y > 0) && (sample_y < $dimensions.1 as i32)) {
                     let mut pixel_dat: [u32; NUM_CHANNELS] = [0; NUM_CHANNELS];
-                    if (sample_x >= 0) && (sample_y >= 0) { for k in 0..NUM_CHANNELS // This right here is the problem
+                    if (sample_x >= 0) && (sample_y >= 0) { for k in 0..NUM_CHANNELS
                         {pixel_dat[k] = $img.get_pixel(sample_x as u32, sample_y as u32).0[k] as u32;}
                     $return[$return_len] = pixel_dat;
                     $return_len+=1;
